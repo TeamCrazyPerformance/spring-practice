@@ -38,8 +38,9 @@ public class PostController {
     }
 
     @PostMapping("")
-    public void create(@RequestBody PostRequest postRequest) {
+    public Long create(@RequestBody PostRequest postRequest) {
         //TODO
+        return null;
     }
 
     @DeleteMapping("")
