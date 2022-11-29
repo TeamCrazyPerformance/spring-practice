@@ -48,7 +48,8 @@ public class PostController {
     @PostMapping("")
     public Long create(@RequestBody PostRequest postRequest) {
         //TODO
-        Post post = new Post
+        Post post = new Post(postRequest.getId(), postRequest.getTitle(), postRequest.getContent(), postRequest.isPublicAccess());
+        posts.add(post);
         return null;
     }
 
@@ -68,7 +69,8 @@ public class PostController {
 
     //TODO
     public void updateById() {
-
+        Post post = posts.get(posts.indexOf(id));
+        post.update(id, post.getTitle(), post.getContent(), post.isPublicAccess());
     }
 
     /**
