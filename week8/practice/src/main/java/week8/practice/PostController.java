@@ -34,28 +34,43 @@ public class PostController {
     @GetMapping("/{postId}")
     public PostResponse findById(@PathVariable Integer postId) {
         //TODO
+        int i = 0;
+        for (Post post: posts) {
+            if (post.getId() != i) {
+                i++;
+            }
+        }
+
+        PostResponse postResponse = PostResponse.from(posts.get(i));
         return null;
     }
 
     @PostMapping("")
     public Long create(@RequestBody PostRequest postRequest) {
         //TODO
+        Post post = new Post(postRequest.getId(), postRequest.getTitle(), postRequest.getContent(), postRequest.isPublicAccess());
+        posts.add(post);
         return null;
     }
 
     @DeleteMapping("")
     public void deleteAll() {
         //TODO
+        for (Post post: posts) {
+            posts.remove(post);
+        }
+
     }
 
     //TODO
     public void deleteById() {
-
+        posts.remove(posts.indexOf(id));
     }
 
     //TODO
     public void updateById() {
-
+        Post post = posts.get(posts.indexOf(id));
+        post.update(id, post.getTitle(), post.getContent(), post.isPublicAccess());
     }
 
     /**
