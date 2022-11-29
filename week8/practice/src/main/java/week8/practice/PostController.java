@@ -2,11 +2,14 @@ package week8.practice;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import week8.practice.dto.CreateResponse;
 import week8.practice.dto.PostRequest;
 import week8.practice.dto.PostResponse;
 
@@ -32,30 +35,47 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public PostResponse findById(@PathVariable Integer postId) {
-        //TODO
+    public PostResponse findById(@PathVariable Long postId) {
+        for (Post post : posts) {
+            if (post.getId().equals(postId)) {
+                return PostResponse.from(post);
+            }
+        }
         return null;
     }
 
     @PostMapping("")
-    public Long create(@RequestBody PostRequest postRequest) {
-        //TODO
-        return null;
+    public CreateResponse create(@RequestBody PostRequest postRequest) {
+        Long newPostId = id;
+        Post post = new Post(newPostId, postRequest.getTitle(), postRequest.getContent(), postRequest.isPublicAccess());
+        posts.add(post);
+        id++;
+        return new CreateResponse(newPostId);
     }
 
     @DeleteMapping("")
     public void deleteAll() {
-        //TODO
+        posts.clear();
     }
 
-    //TODO
-    public void deleteById() {
-
+    @DeleteMapping("/{postId}")
+    public void deleteById(@PathVariable Long postId) {
+        Post deletePost = null;
+        for (Post post : posts) {
+            if (post.getId().equals(postId)) {
+                deletePost = post;
+            }
+        }
+        posts.remove(deletePost);
     }
 
-    //TODO
-    public void updateById() {
-
+    @PutMapping("/{postId}")
+    public void updateById(@PathVariable Long postId, @RequestBody PostRequest postRequest) {
+        for (Post post : posts) {
+            if (post.getId().equals(postId)) {
+                post.update(postRequest);
+            }
+        }
     }
 
     /**
